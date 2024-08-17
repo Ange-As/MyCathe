@@ -37,7 +37,6 @@ const days = [
 
 const profil = [
   { value: "JEUNE", text: "JEUNE" },
-  { value: "ENFANT", text: "ENFANT" },
   { value: "ADULTE", text: "ADULTE" },
 ];
 
