@@ -9,6 +9,6 @@ export const catechumeneSchema = z.object({
   classe_or_profession: z.string({ message: "ce champ est requis !" }),
   jour_cours: z.string({ message: "ce champ est requis !" }),
   annee_catechese: z.string({ message: "ce champ est requis !" }),
-  profil: z.string({ message: "ce champ est requis !" }),
+  // profil: z.string({ message: "ce champ est requis !" }),
   date_naissance: z.string({ message: "ce champ est requis !" }),
 });

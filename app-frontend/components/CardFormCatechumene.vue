@@ -5,6 +5,7 @@ import type { FormSubmitEvent } from "#ui/types";
 
 type Schema = z.output<typeof catechumeneSchema>;
 
+const route = useRoute();
 const state = reactive({
   photo: undefined,
   nom: undefined,
@@ -15,7 +16,7 @@ const state = reactive({
   classe_or_profession: undefined,
   jour_cours: undefined,
   annee_catechese: undefined,
-  profil: undefined,
+  profil: route.params.tranche,
   date_naissance: undefined,
 });
 
@@ -35,11 +36,6 @@ const days = [
   { value: "dimanche", text: "Dimanche" },
 ];
 
-const profil = [
-  { value: "JEUNE", text: "JEUNE" },
-  { value: "ADULTE", text: "ADULTE" },
-];
-
 const loading = ref(false);
 const catechumeneStore = useCatechumeneStore();
 const toast = useToast();
@@ -53,7 +49,7 @@ const handleChangeImage = (event: Event, key: keyof typeof state) => {
 };
 
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
-  //   loading.value = true;
+    loading.value = true;
 
   try {
     const response = await catechumeneStore.storeCatechumene(event.data);
@@ -138,14 +134,6 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
       </UFormGroup>
       <UFormGroup name="annee_catechese" size="lg">
         <UInput placeholder="Ex: 2023-2024" v-model="state.annee_catechese" />
-      </UFormGroup>
-      <UFormGroup name="profil" size="lg">
-        <USelect
-          placeholder="Quel est votre profil"
-          v-model="state.profil"
-          :options="profil"
-          option-attribute="text"
-        />
       </UFormGroup>
       <UButton
         size="lg"

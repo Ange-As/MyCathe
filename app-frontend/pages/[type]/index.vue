@@ -7,7 +7,7 @@ const route = useRoute();
     <CardFormAnimateur v-if="route.params.type == 'animateur'" />
 
     <div v-if="route.params.type == 'catechumene'">
-      <CardFormProfilChoice />
+      <CardFormTrancheAge />
     </div>
   </div>
 </template>
