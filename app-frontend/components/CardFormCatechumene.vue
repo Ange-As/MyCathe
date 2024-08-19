@@ -49,7 +49,7 @@ const handleChangeImage = (event: Event, key: keyof typeof state) => {
 };
 
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
-    loading.value = true;
+  loading.value = true;
 
   try {
     const response = await catechumeneStore.storeCatechumene(event.data);
