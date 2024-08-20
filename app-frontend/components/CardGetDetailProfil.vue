@@ -43,7 +43,7 @@ onMounted(() => {
         label="Inscrivez-vous"
         block
         size="lg"
-        @click="navigateTo(`/catechumene/choices/new/`)"
+        @click="navigateTo(`/catechumene/${route.params.tranche}/choices/new/`)"
       />
     </div>
   </UCard>

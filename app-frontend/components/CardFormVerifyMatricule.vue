@@ -9,8 +9,10 @@ const schema = z.object({
   matricule: z.string({ message: "Ce champ est requis" }),
 });
 
+const router = useRouter()
+
 function goToNexPage() {
-  return navigateTo(`/catechumene/choices/elder/${state.matricule}`);
+  return router.push(`elder/${state.matricule}`);
 }
 </script>
 
