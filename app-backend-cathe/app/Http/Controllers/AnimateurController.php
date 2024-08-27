@@ -33,4 +33,30 @@ class AnimateurController extends Controller
 
         return response()->json(["message" => "Animateur enregistré avec succès !", "status" => 200]);
     }
+
+
+    public function searchAnimateur(Request $request)
+    {
+        $annee_catechese = $request->input('annee_catechese');
+        $categorie = $request->input('categorie');
+        $jour_cours = $request->input('jour_cours');
+
+        $query = Animateur::query();
+
+        if ($annee_catechese) {
+            $query->where('annee_catechese', 'LIKE', '%' . $annee_catechese . '%');
+        }
+
+        if ($categorie) {
+            $query->where('categorie_catechumene', 'LIKE', '%' . $categorie . '%');
+        }
+
+        if ($jour_cours) {
+            $query->where("jour_cours", 'LIKE', '%' . $jour_cours . '%');
+        }
+
+        $data = $query->get();
+
+        return response()->json($data);
+    }
 }

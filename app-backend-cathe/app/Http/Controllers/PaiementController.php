@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ModePaiement;
 use App\Models\Paiement;
 use Illuminate\Http\Request;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PaiementController extends Controller
 {
@@ -15,6 +16,7 @@ class PaiementController extends Controller
             "catechumene_id" => "required",
             "mode_paiement" => "required",
             "reference_id" => "required",
+            "montant" => "required"
         ]);
     }
 
@@ -73,5 +75,11 @@ class PaiementController extends Controller
     {
         $paiements = Paiement::where('is_paiement_valid', $is_valid)->paginate(10);
         return response()->json($paiements);
+    }
+
+    public function getOnePaiement($id_user)
+    {
+        $is_exist = Paiement::where('catechumene_id', $id_user)->first();
+        return response()->json($is_exist);
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             // $table->foreignId("mode_paiement_id")->references("id")->on("mode_paiement")->onDelete('CASCADE');
             $table->string("mode_paiement");
             $table->string("reference_id");
+            $table->string("montant");
             $table->boolean("is_paiement_valid")->default(false);
             $table->timestamps();
         });

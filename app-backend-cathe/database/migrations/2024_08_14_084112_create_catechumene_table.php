@@ -19,12 +19,13 @@ return new class extends Migration
             $table->string("prenom");
             $table->string("age_de_naissance");
             $table->string("contact");
-            $table->integer("niveau_catechese");
+            $table->string("niveau_catechese");
             $table->string("classe_or_profession");
             $table->string("jour_cours");
             $table->string("annee_catechese");
             $table->string("profil");
             $table->string("date_naissance");
+            $table->date('date_inscription');
             $table->timestamps();
         });
     }

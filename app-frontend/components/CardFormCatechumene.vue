@@ -21,11 +21,11 @@ const state = reactive({
 });
 
 const years = [
-  { value: 1, text: "1 ÈRE ANNÉE" },
-  { value: 2, text: "2 ÈME ANNÉE" },
-  { value: 3, text: "3 ÈME ANNÉE" },
-  { value: 4, text: "4 ÈME ANNÉE" },
-  { value: 5, text: "5 ÈME ANNÉE" },
+  { value: "1 ÈRE ANNÉE", text: "1 ÈRE ANNÉE" },
+  { value: "2 ÈME ANNÉE", text: "2 ÈME ANNÉE" },
+  { value: "3 ÈME ANNÉE", text: "3 ÈME ANNÉE" },
+  { value: "4 ÈME ANNÉE", text: "4 ÈME ANNÉE" },
+  { value: "5 ÈME ANNÉE", text: "5 ÈME ANNÉE" },
 ];
 
 const days = [

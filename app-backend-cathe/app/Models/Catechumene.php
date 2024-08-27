@@ -24,5 +24,6 @@ class Catechumene extends Model
         'annee_catechese',
         'profil',
         'date_naissance',
+        'date_inscription'
     ];
 }

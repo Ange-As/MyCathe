@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CatechumenesImport;
 use App\Models\Catechumene;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CatechumeneController extends Controller
 {
@@ -34,6 +36,8 @@ class CatechumeneController extends Controller
 
             $data = $this->validateRequestData($request);
             Log::info('Validated data: ', $data);
+
+            $data["date_inscription"] = today();
 
             $name_substr = substr($data["nom"], 0, 3);
             $replace = str_replace('-', '', $data["date_naissance"]);
@@ -67,5 +71,26 @@ class CatechumeneController extends Controller
         if ($is_exist) {
             return response()->json($is_exist);
         }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required',
+        ]);
+
+        $import = new CatechumenesImport();
+        Excel::import($import, $request->file('file'));
+
+        // Les données importées sont maintenant dans $import->rows
+        $importedData = $import->rows;
+
+        // Option 1: Les afficher directement (par exemple, dans un tableau)
+        foreach ($importedData as $row) {
+            print_r($row);
+        }
+
+        // Option 2: Retourner les données dans une réponse JSON
+        return response()->json(['message' => 'Importation réussie', 'data' => $importedData], 200);
     }
 }

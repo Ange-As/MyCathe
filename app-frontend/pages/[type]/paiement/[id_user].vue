@@ -9,6 +9,7 @@ const state = reactive({
   reference_id: undefined,
   catechumene_id: Number(route.params.id_user),
   mode_paiement: undefined,
+  montant: undefined,
 });
 
 const methods = [
@@ -48,7 +49,6 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
 
   console.log(event.data);
 }
-
 </script>
 
 <template>
@@ -89,6 +89,14 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
           size="lg"
         >
           <UInput v-model="state.reference_id" />
+        </UFormGroup>
+
+        <UFormGroup
+          name="montant"
+          label="Entrez le montant que vous avez déposé"
+          size="lg"
+        >
+          <UInput v-model="state.montant" />
         </UFormGroup>
 
         <UButton

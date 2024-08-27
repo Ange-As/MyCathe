@@ -1,0 +1,169 @@
+<script>
+import { indexOneMatricule, indexOnePaiement } from "../stores/defaultStore";
+
+export default {
+    data() {
+        return {
+            matricule: "",
+            rows: [],
+            data: {
+                nom: "",
+                prenom: "",
+                date_inscription: "",
+                annee_catechese: "",
+            },
+            paiement: {
+                reference_id: "",
+                is_paiement_valid: false,
+                montant: "",
+            },
+        };
+    },
+    methods: {
+        async getData() {
+            try {
+                const response = await indexOneMatricule(this.matricule);
+                const secondResponse = await indexOnePaiement(response.id);
+                if (secondResponse.length !== 0) {
+                    this.paiement.reference_id = secondResponse.reference_id;
+                    this.paiement.is_paiement_valid =
+                        secondResponse.is_paiement_valid === 0 ? false : true;
+                    this.paiement.montant = secondResponse.montant;
+                }
+                this.data = response;
+                console.log(this.data);
+                console.log(this.paiement);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    },
+};
+</script>
+
+<template>
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="font-weight-bold">Rechercher un catéchumènes</h5>
+                </div>
+                <div class="card-body">
+                    <form @submit.prevent="getData">
+                        <input
+                            type="text"
+                            placeholder="Matricule"
+                            class="form-control mb-4"
+                            v-model="matricule"
+                        />
+                        <button class="btn btn-primary" type="submit">
+                            Rechercher
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 mb-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="font-weight-bold">
+                        Informations sur le catéchumène
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Nom</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                v-model="data.nom"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Prénom</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                v-model="data.prenom"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Numéro de transaction</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                disabled
+                                v-model="paiement.reference_id"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Montant</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="montant"
+                                aria-describedby="emailHelp"
+                                disabled
+                                v-model="paiement.montant"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >date d'inscription</label
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                v-model="data.date_inscription"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Année de catéchèse</label
+                            >
+                            <input
+                                type="text"
+                                id="annee_catechese"
+                                class="form-control"
+                                v-model="data.annee_catechese"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label"
+                                >Valider le paiement</label
+                            >
+                            <div class="form-check form-switch">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    role="switch"
+                                    id="flexSwitchCheckChecked"
+                                    v-model="paiement.is_paiement_valid"
+                                />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-3">Modifier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
