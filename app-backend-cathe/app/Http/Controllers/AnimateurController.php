@@ -34,6 +34,33 @@ class AnimateurController extends Controller
         return response()->json(["message" => "Animateur enregistré avec succès !", "status" => 200]);
     }
 
+    public function editAnimateur(Request $request, $id)
+    {
+        $credentials = $this->validateRequestData($request);
+
+        $is_exist = Animateur::findOrFail($id);
+
+        $update = $is_exist->update($credentials);
+
+        if (!$update) {
+            return response()->json(["message" => "Une erreur est survenue !", "status" => 500]);
+        }
+
+        return response()->json(["message" => "Mise à jour effectuée avec succès !", "status" => 200]);
+    }
+
+    public function deleteAnimateur($id)
+    {
+        $is_exist = Animateur::findOrFail($id);
+
+        $delete = $is_exist->delete();
+
+        if (!$delete) {
+            return response()->json(["message" => "Une erreur est survenue !", "status" => 500]);
+        }
+        return response()->json(["message" => "Mise à jour effectuée avec succès !", "status" => 200]);
+    }
+
 
     public function searchAnimateur(Request $request)
     {

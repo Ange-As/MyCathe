@@ -12,6 +12,18 @@ const indexOneMatricule = async (matricule) => {
     }
 };
 
+const editCatechumene = async (matricule, data) => {
+    try {
+        const response = await axios.put(
+            `${API_LINK}/catechumene/${matricule}/edit`,
+            data
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const indexOnePaiement = async (id_user) => {
     try {
         const response = await axios.get(`${API_LINK}/paiement/${id_user}/get`);
@@ -36,6 +48,29 @@ const filterAnimateur = async (
     }
 };
 
+const editAnimateur = async (id, data) => {
+    try {
+        const response = await axios.put(
+            `${API_LINK}/animateur/${id}/edit`,
+            data
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const deleteAnimateur = async (id) => {
+    try {
+        const response = await axios.delete(
+            `${API_LINK}/animateur/${id}/delete`
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const getStatCountCatechumene = async () => {
     try {
         const response = await axios.get("/v1/catechumene/get_count_today");
@@ -50,4 +85,7 @@ export {
     indexOnePaiement,
     filterAnimateur,
     getStatCountCatechumene,
+    editCatechumene,
+    editAnimateur,
+    deleteAnimateur,
 };

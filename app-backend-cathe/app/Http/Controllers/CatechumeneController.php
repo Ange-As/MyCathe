@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\CatechumenesImport;
 use App\Models\Catechumene;
+use App\Models\Paiement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -64,6 +65,37 @@ class CatechumeneController extends Controller
     }
 
 
+    public function editCatechumene(Request $request, $matricule)
+    {
+        $credentials =  $request->validate([
+            "nom" => "required",
+            "prenom" => "required",
+            "annee_catechese" => "required",
+            "date_inscription" => "required",
+            "is_paiement_valid" => "required"
+        ]);
+
+        $is_exist = Catechumene::where('matricule', $matricule)->first();
+
+        if (!$is_exist) {
+            return response()->json(["message" => "Vous ne pouvez modifier les informations de cet utilisateur !", "status" => 404]);
+        }
+
+        $paiement = Paiement::where("catechumene_id", $is_exist->id)->first();
+
+        $paiement->is_paiement_valid = $credentials["is_paiement_valid"];
+        $paiement->save();
+
+        $update = $is_exist->update($credentials);
+
+        if (!$update) {
+            return response()->json(["message" => "Une erreur est survenué !", "status" => 500]);
+        }
+
+        return response()->json(["message" => "Mise à jour réussie !", "status" => 200]);
+    }
+
+
     public function getOne($matricule)
     {
         $is_exist = Catechumene::where('matricule', $matricule)->first();
@@ -76,21 +108,12 @@ class CatechumeneController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required',
+            'file' => 'required|file',
         ]);
 
-        $import = new CatechumenesImport();
-        Excel::import($import, $request->file('file'));
-
-        // Les données importées sont maintenant dans $import->rows
-        $importedData = $import->rows;
-
-        // Option 1: Les afficher directement (par exemple, dans un tableau)
-        foreach ($importedData as $row) {
-            print_r($row);
-        }
+        Excel::import(new CatechumenesImport(), $request->file('file'));
 
         // Option 2: Retourner les données dans une réponse JSON
-        return response()->json(['message' => 'Importation réussie', 'data' => $importedData], 200);
+        return redirect()->back()->with('success', 'Importation réussie');
     }
 }

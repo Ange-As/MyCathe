@@ -1,5 +1,10 @@
 <script>
-import { indexOneMatricule, indexOnePaiement } from "../stores/defaultStore";
+import {
+    editAnimateur,
+    editCatechumene,
+    indexOneMatricule,
+    indexOnePaiement,
+} from "../stores/defaultStore";
 
 export default {
     data() {
@@ -11,12 +16,14 @@ export default {
                 prenom: "",
                 date_inscription: "",
                 annee_catechese: "",
+                is_paiement_valid: "",
             },
             paiement: {
                 reference_id: "",
                 is_paiement_valid: false,
                 montant: "",
             },
+            loading: false,
         };
     },
     methods: {
@@ -35,6 +42,25 @@ export default {
                 console.log(this.paiement);
             } catch (error) {
                 console.log(error);
+            }
+        },
+        async editData() {
+            this.loading = true;
+            try {
+                this.data.is_paiement_valid = this.paiement.is_paiement_valid;
+                const response = await editCatechumene(
+                    this.matricule,
+                    this.data
+                );
+
+                this.$swal.fire({
+                    text: response.message,
+                    icon: response.status == 200 ? "success" : "error",
+                });
+            } catch (error) {
+                throw error;
+            } finally {
+                this.loading = false;
             }
         },
     },
@@ -72,7 +98,7 @@ export default {
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form @submit.prevent="editData">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label"
                                 >Nom</label
@@ -83,6 +109,7 @@ export default {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 v-model="data.nom"
+                                required
                             />
                         </div>
                         <div class="mb-3">
@@ -95,6 +122,7 @@ export default {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 v-model="data.prenom"
+                                required
                             />
                         </div>
                         <div class="mb-3">
@@ -108,6 +136,7 @@ export default {
                                 aria-describedby="emailHelp"
                                 disabled
                                 v-model="paiement.reference_id"
+                                required
                             />
                         </div>
                         <div class="mb-3">
@@ -121,6 +150,7 @@ export default {
                                 aria-describedby="emailHelp"
                                 disabled
                                 v-model="paiement.montant"
+                                required
                             />
                         </div>
                         <div class="mb-3">
@@ -133,6 +163,7 @@ export default {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 v-model="data.date_inscription"
+                                required
                             />
                         </div>
                         <div class="mb-3">
@@ -144,6 +175,7 @@ export default {
                                 id="annee_catechese"
                                 class="form-control"
                                 v-model="data.annee_catechese"
+                                required
                             />
                         </div>
                         <div class="mb-3">
@@ -160,7 +192,20 @@ export default {
                                 />
                             </div>
                         </div>
-                        <button class="btn btn-primary mt-3">Modifier</button>
+                        <button
+                            class="btn btn-primary mt-3"
+                            type="submit"
+                            :disabled="loading"
+                        >
+                            <span v-if="!loading"> Modifier </span>
+                            <div
+                                class="spinner-border"
+                                role="status"
+                                v-if="loading"
+                            >
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </button>
                     </form>
                 </div>
             </div>

@@ -7,6 +7,8 @@
 import "./bootstrap";
 import { createApp } from "vue";
 import HighchartsVue from "highcharts-vue";
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -43,4 +45,5 @@ app.component("filter-animateur-component", FilterAnimateurComponent);
  */
 
 app.use(HighchartsVue);
+app.use(VueSweetalert2)
 app.mount("#app");

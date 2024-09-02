@@ -18,8 +18,11 @@ Route::post('/v1/paiement/store', [PaiementController::class, 'storeReferences']
 
 Route::get("/v1/mode-paiement/index", [PaiementController::class, 'getAllModePaiement']);
 Route::get("/v1/paiement/index", [PaiementController::class, 'getAllPaiement']);
-Route::post('/catechumenes/import', [CatechumeneController::class, 'import']);
 Route::get('/v1/catechumene/{matricule}/get', [CatechumeneController::class, 'getOne']);
 
 Route::get('/v1/paiement/{id_user}/get', [PaiementController::class, 'getOnePaiement']);
 Route::get('/v1/animateur/filter', [AnimateurController::class, 'searchAnimateur']);
+Route::put('/v1/catechumene/{matricule}/edit', [CatechumeneController::class, 'editCatechumene']);
+Route::put('/v1/animateur/{id}/edit', [AnimateurController::class, 'editAnimateur']);
+
+Route::delete('/v1/animateur/{id}/delete', [AnimateurController::class, 'deleteAnimateur']);

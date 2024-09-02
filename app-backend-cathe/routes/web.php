@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatechumeneController;
 use App\Http\Controllers\views\HomeController;
 use App\Http\Controllers\views\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -12,3 +13,6 @@ Route::get('/connexion', [LoginController::class, 'login'])->name('login');
 
 Route::post('/send-info-connexion', [LoginController::class, 'user_login'])->name('user_login');
 Route::get('/deconnexion', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::post('/catechumenes/import', [CatechumeneController::class, 'import'])->name('import_data');

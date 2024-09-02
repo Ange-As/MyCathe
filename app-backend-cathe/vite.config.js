@@ -6,12 +6,8 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
+                // 'resources/sass/app.scss',
                 'resources/js/app.js',
-                'resources/css/sb-admin-2.css',
-                'resources/css/sb-admin-2.min.css',
-                'resources/js/sb-admin-2.js',
-                'resources/js/sb-admin-2.min.js'
             ],
             refresh: true,
         }),
