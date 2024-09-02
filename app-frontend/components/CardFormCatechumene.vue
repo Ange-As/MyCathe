@@ -15,7 +15,7 @@ const state = reactive({
   niveau_catechese: undefined,
   classe_or_profession: undefined,
   jour_cours: undefined,
-  annee_catechese: undefined,
+  annee_catechese: "2024-2025",
   profil: route.params.tranche,
   date_naissance: undefined,
 });
@@ -88,6 +88,9 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
       @submit="handleSubmit"
       class="space-y-5"
     >
+      <UFormGroup name="photo_catechumene" size="lg">
+        <input type="file" name="photo_catechumene" id="photo_catechumene" />
+      </UFormGroup>
       <UFormGroup label="Chargez votre jugement de naissance" name="photo">
         <input type="file" @change="handleChangeImage($event, 'photo')" />
       </UFormGroup>
@@ -133,7 +136,12 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
         />
       </UFormGroup>
       <UFormGroup name="annee_catechese" size="lg">
-        <UInput placeholder="Ex: 2023-2024" v-model="state.annee_catechese" />
+        <UInput
+          placeholder="Ex: 2023-2024"
+          v-model="state.annee_catechese"
+          disabled
+          color="gray"
+        />
       </UFormGroup>
       <UButton
         size="lg"

@@ -83,6 +83,9 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
       @submit="handleSubmit"
       class="space-y-5"
     >
+    <UFormGroup name="photo_animateur" size="lg">
+      <input type="file" name="photo_animateur" id="photo_animateur">
+    </UFormGroup>
       <UFormGroup name="nom" size="lg">
         <UInput placeholder="Saisissez votre nom" v-model="state.nom" />
       </UFormGroup>
