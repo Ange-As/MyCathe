@@ -16,6 +16,8 @@ class CatechumeneController extends Controller
     private function validateRequestData(Request $request)
     {
         return $request->validate([
+            "photo"=>"required",
+            "photo_catechumene"=>"required",
             "nom" => "required",
             "prenom" => "required",
             "age_de_naissance" => "required",
@@ -46,8 +48,12 @@ class CatechumeneController extends Controller
 
             if ($request->hasFile('photo')) {
                 $photo = $request->file('photo')->store('cvs', 'public');
-                Log::info('Photo path: ' . $photo);
                 $data['photo'] = $photo;
+            }
+
+            if ($request->hasFile('photo_catechumene')) {
+                $photo = $request->file('photo_catechumene')->store('cvs', 'public');
+                $data['photo_catechumene'] = $photo;
             }
 
             $create = Catechumene::create($data);

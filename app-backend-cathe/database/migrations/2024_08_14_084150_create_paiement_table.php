@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('catechumene_id')->references('id')->on('catechumene')->onDelete('CASCADE');
             // $table->foreignId("mode_paiement_id")->references("id")->on("mode_paiement")->onDelete('CASCADE');
-            $table->string("mode_paiement");
-            $table->string("reference_id");
-            $table->string("montant");
+            $table->string("mode_paiement")->nullable();
+            $table->string("reference_id")->nullable();
+            $table->string("montant")->nullable();
             $table->boolean("is_paiement_valid")->default(false);
+            $table->string("type_paiement");
             $table->timestamps();
         });
     }

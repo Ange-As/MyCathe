@@ -16,7 +16,8 @@ class Paiement extends Model
         "mode_paiement",
         "reference_id",
         "is_paiement_valid",
-        "montant"
+        "montant",
+        "type_paiement"
     ];
 
     public function catechumene(){

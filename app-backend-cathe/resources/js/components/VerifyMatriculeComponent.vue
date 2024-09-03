@@ -1,6 +1,5 @@
 <script>
 import {
-    editAnimateur,
     editCatechumene,
     indexOneMatricule,
     indexOnePaiement,
@@ -22,6 +21,7 @@ export default {
                 reference_id: "",
                 is_paiement_valid: false,
                 montant: "",
+                type_paiement:""
             },
             loading: false,
         };
@@ -36,10 +36,9 @@ export default {
                     this.paiement.is_paiement_valid =
                         secondResponse.is_paiement_valid === 0 ? false : true;
                     this.paiement.montant = secondResponse.montant;
+                    this.paiement.type_paiement = secondResponse.type_paiement
                 }
                 this.data = response;
-                console.log(this.data);
-                console.log(this.paiement);
             } catch (error) {
                 console.log(error);
             }
@@ -122,6 +121,20 @@ export default {
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                                 v-model="data.prenom"
+                                required
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Type de paiement</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                disabled
+                                v-model="paiement.type_paiement"
                                 required
                             />
                         </div>

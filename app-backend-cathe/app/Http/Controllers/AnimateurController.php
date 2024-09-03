@@ -23,7 +23,13 @@ class AnimateurController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(["photo_animateur"=>"required"]);
         $credentials = $this->validateRequestData($request);
+
+        if ($request->hasFile('photo_animateur')) {
+            $photo = $request->file('photo_animateur')->store('cvs', 'public');
+            $data['photo_animateur'] = $photo;
+        }
 
         $create = Animateur::create($credentials);
 

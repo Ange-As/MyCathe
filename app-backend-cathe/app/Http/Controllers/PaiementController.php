@@ -13,10 +13,8 @@ class PaiementController extends Controller
     private function validateRequestDataPaiement(Request $request)
     {
         return $request->validate([
-            "catechumene_id" => "required",
-            "mode_paiement" => "required",
-            "reference_id" => "required",
-            "montant" => "required"
+             "catechumene_id" => "required",
+            "type_paiement" => "required"
         ]);
     }
 

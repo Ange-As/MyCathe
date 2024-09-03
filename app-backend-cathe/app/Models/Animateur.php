@@ -12,6 +12,7 @@ class Animateur extends Model
     protected $table = "animateur";
 
     protected $fillable = [
+        "photo_animateur",
         "nom",
         "prenom",
         "contact",

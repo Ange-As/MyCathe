@@ -32,7 +32,6 @@ export default {
                     this.categorie,
                     this.jour_cours
                 );
-                console.log(response);
 
                 this.rows = response;
             } catch (error) {

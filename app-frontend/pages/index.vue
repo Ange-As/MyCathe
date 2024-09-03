@@ -40,7 +40,7 @@
   flex-direction: column;
   min-height: 100vh;
   overflow: hidden; /* Assure qu'il n'y a pas de défilement */
-  background-color: #111010; /* Couleur de fond de la page */
+  background-color: #111010; /* Couleure de fond de la page */
 }
 
 .header {

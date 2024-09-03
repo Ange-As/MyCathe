@@ -3,7 +3,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <div class="w-full h-screen flex justify-center items-center">
+  <div class="w-full h-screen e flex justify-center items-center">
     <UCard class="w-[500px]">
       <UButton
         label="Première année"

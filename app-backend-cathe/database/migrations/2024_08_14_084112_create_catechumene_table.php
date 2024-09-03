@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("matricule");
             $table->string("photo")->nullable();
+            $table->string("photo_catechumene")->nullable();
             $table->string("nom");
             $table->string("prenom");
             $table->string("age_de_naissance")->nullable();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string("profil");
             $table->string("date_naissance")->nullable();
             $table->date('date_inscription');
+            $table->string('ets_origin')->nullable();
             $table->timestamps();
         });
     }

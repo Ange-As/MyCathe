@@ -14,6 +14,7 @@ class Catechumene extends Model
     protected $fillable = [
         'matricule',
         'photo',
+        'photo_catechumene',
         'nom',
         'prenom',
         'age_de_naissance',
@@ -24,6 +25,7 @@ class Catechumene extends Model
         'annee_catechese',
         'profil',
         'date_naissance',
-        'date_inscription'
+        'date_inscription',
+        'ets_origin'
     ];
 }
