@@ -6,6 +6,7 @@ import { animateurSchema } from "~/schemas/animateurSchema";
 type Schema = z.output<typeof animateurSchema>;
 
 const initialState = {
+  photo_animateur: undefined,
   nom: undefined,
   prenom: undefined,
   contact: undefined,
@@ -44,11 +45,19 @@ const loading = ref(false);
 const toast = useToast();
 const animateurStore = useAnimateurStore();
 
+const handleChangeImage = (event: Event, key: keyof typeof state) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    state[key] = file;
+  }
+};
+
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
   loading.value = true;
 
   try {
-    const response = await animateurStore.storeAnimateur(event.data);
+    const response = await animateurStore.storeAnimateur(state);
 
     if (response.status == 200) {
       toast.add({
@@ -77,15 +86,11 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
     <template #header>
       <div class="text-center text-xl">Inscription animateur</div>
     </template>
-    <UForm
-      :state="state"
-      :schema="animateurSchema"
-      @submit="handleSubmit"
-      class="space-y-5"
-    >
-    <UFormGroup name="photo_animateur" size="lg">
-      <input type="file" name="photo_animateur" id="photo_animateur">
-    </UFormGroup>
+    <UForm :state="state" :schema="animateurSchema" @submit="handleSubmit" class="space-y-5">
+      <UFormGroup name="photo_animateur" size="lg">
+        <input type="file" name="photo_animateur" id="photo_animateur"
+          @change="handleChangeImage($event, 'photo_animateur')">
+      </UFormGroup>
       <UFormGroup name="nom" size="lg">
         <UInput placeholder="Saisissez votre nom" v-model="state.nom" />
       </UFormGroup>
@@ -96,38 +101,20 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
         <UInput placeholder="Saisissez votre contact" v-model="state.contact" />
       </UFormGroup>
       <UFormGroup name="categorie_catechumene" size="lg">
-        <USelect
-          placeholder="Catégorie de catéchumène que vous souhaitez prendre"
-          v-model="state.categorie_catechumene"
-          :options="categories"
-          option-attribute="text"
-        />
+        <USelect placeholder="Catégorie de catéchumène que vous souhaitez prendre" v-model="state.categorie_catechumene"
+          :options="categories" option-attribute="text" />
       </UFormGroup>
       <UFormGroup name="jour_cours" size="lg">
-        <USelect
-          placeholder="Les jours où vous souhaitez enseigner"
-          v-model="state.jour_cours"
-          :options="days"
-          option-attribute="text"
-        />
+        <USelect placeholder="Les jours où vous souhaitez enseigner" v-model="state.jour_cours" :options="days"
+          option-attribute="text" />
       </UFormGroup>
 
       <UFormGroup name="annee_catechese" size="lg">
-        <USelect
-          placeholder="L'année que vous souhaitez prendre"
-          v-model="state.annee_catechese"
-          :options="years"
-          option-attribute="text"
-        />
+        <USelect placeholder="L'année que vous souhaitez prendre" v-model="state.annee_catechese" :options="years"
+          option-attribute="text" />
       </UFormGroup>
 
-      <UButton
-        label="Enreigstrer"
-        block
-        size="lg"
-        type="submit"
-        :loading="loading"
-      />
+      <UButton label="Enreigstrer" block size="lg" type="submit" :loading="loading" />
     </UForm>
   </UCard>
 

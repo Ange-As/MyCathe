@@ -30,7 +30,7 @@ export function createApi(config: any, tokenStore: any) {
   const apiWithoutAuth = axios.create({
     baseURL: `${config}`,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json, multipart/form-data",
     },
   });
 

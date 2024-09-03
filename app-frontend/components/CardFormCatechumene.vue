@@ -6,8 +6,10 @@ import type { FormSubmitEvent } from "#ui/types";
 type Schema = z.output<typeof catechumeneSchema>;
 
 const route = useRoute();
+const router = useRouter();
 const state = reactive({
   photo: undefined,
+  photo_catechumene: undefined,
   nom: undefined,
   prenom: undefined,
   age_de_naissance: undefined,
@@ -18,6 +20,7 @@ const state = reactive({
   annee_catechese: "2024-2025",
   profil: route.params.tranche,
   date_naissance: undefined,
+  ets_origin: undefined,
 });
 
 const years = [
@@ -52,12 +55,14 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
   loading.value = true;
 
   try {
-    const response = await catechumeneStore.storeCatechumene(event.data);
+    const response = await catechumeneStore.storeCatechumene(state);
     if (response.status == 200) {
       toast.add({
         title: response.message,
       });
-      navigateTo(`/catechumene/paiement/${response.id_cate}`);
+      if (response.id_cate != null) {
+        navigateTo(`/catechumene/paiement/${response.id_cate}`);
+      }
     } else {
       toast.add({
         title: response.message,
@@ -88,8 +93,17 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
       @submit="handleSubmit"
       class="space-y-5"
     >
-      <UFormGroup name="photo_catechumene" size="lg">
-        <input type="file" name="photo_catechumene" id="photo_catechumene" />
+      <UFormGroup
+        name="photo_catechumene"
+        size="lg"
+        label="Chargez votre photo"
+      >
+        <input
+          type="file"
+          name="photo_catechumene"
+          id="photo_catechumene"
+          @change="handleChangeImage($event, 'photo_catechumene')"
+        />
       </UFormGroup>
       <UFormGroup label="Chargez votre jugement de naissance" name="photo">
         <input type="file" @change="handleChangeImage($event, 'photo')" />
@@ -141,6 +155,12 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
           v-model="state.annee_catechese"
           disabled
           color="gray"
+        />
+      </UFormGroup>
+      <UFormGroup name="ets_origin" v-if="route.params.tranche == '2'" required>
+        <UInput
+          placeholder="Donnez nous votre établissement d'origin"
+          v-model="state.ets_origin"
         />
       </UFormGroup>
       <UButton
