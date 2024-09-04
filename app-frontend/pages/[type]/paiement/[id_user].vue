@@ -101,7 +101,7 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
         <UFormGroup
           v-if="state.type_paiement !== 'subventionné'"
           name="reference_id"
-          label="Entrez le numéro de référence de votre dépôt"
+          label="Entrez le numéro qui effectue le dépôt"
           size="lg"
           required
         >
