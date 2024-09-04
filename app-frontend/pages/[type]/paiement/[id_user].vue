@@ -1,11 +1,16 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { z } from "zod";
 import { paiementSchema } from "~/schemas/paiementSchema";
 import type { FormSubmitEvent } from "#ui/types";
+import { ref, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-type Schema = z.output<typeof paiementSchema>;
+type Schema = z.infer<typeof paiementSchema>;
+
 const route = useRoute();
-const state = reactive({
+const router = useRouter();
+
+const state = reactive<Schema>({
   reference_id: "",
   catechumene_id: Number(route.params.id_user),
   mode_paiement: "",
@@ -40,23 +45,22 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
       toast.add({
         title: response.message,
       });
-      navigateTo("/");
+      
+      // Logique pour rediriger après le paiement
+      router.push('/');
     } else {
       toast.add({
         title: response.message,
       });
     }
   } catch (error) {
-    console.error(error);
-
+    console.error("Error during payment submission:", error);
     toast.add({
-      title: "Ooops, une erreur !",
+      title: "Une erreur est survenue lors du paiement.",
     });
   } finally {
     loading.value = false;
   }
-
-  console.log(event.data);
 }
 </script>
 
@@ -84,7 +88,7 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="space-y-1" v-if="state.type_paiement !== 'subventionné'">
-          <UFormGroup name="catechumene_id" label="Mode de paiement" required>
+          <UFormGroup name="mode_paiement" label="Mode de paiement" required>
             <URadio
               v-for="method of methods"
               :key="method.value"
@@ -97,7 +101,7 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
         <UFormGroup
           v-if="state.type_paiement !== 'subventionné'"
           name="reference_id"
-          label="Entrez le numero de référence de votre dépôt"
+          label="Entrez le numéro de référence de votre dépôt"
           size="lg"
           required
         >
@@ -116,7 +120,7 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
 
         <UButton
           size="lg"
-          label="Enregister"
+          label="Enregistrer"
           block
           :loading="loading"
           type="submit"

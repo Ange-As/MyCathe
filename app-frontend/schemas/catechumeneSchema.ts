@@ -1,14 +1,22 @@
 import { z } from "zod";
 
 export const catechumeneSchema = z.object({
-  nom: z.string({ message: "ce champ est requis !" }),
-  prenom: z.string({ message: "ce champ est requis !" }),
-  age_de_naissance: z.number({ message: "ce champ est requis" }),
-  contact: z.string({ message: "ce champ est requis !" }),
-  niveau_catechese: z.string({ message: "ce champ est requis" }),
-  classe_or_profession: z.string({ message: "ce champ est requis !" }),
-  jour_cours: z.string({ message: "ce champ est requis !" }),
-  annee_catechese: z.string({ message: "ce champ est requis !" }),
-  // profil: z.string({ message: "ce champ est requis !" }),
-  date_naissance: z.string({ message: "ce champ est requis !" }),
+  photo: z.instanceof(File).optional(),
+  photo_catechumene: z.instanceof(File).optional(),
+  nom: z.string().min(1, "Le nom est requis"),
+  prenom: z.string().min(1, "Le prénom est requis"),
+  age_de_naissance: z.number().optional(),
+  contact: z.string().min(1, "Le contact est requis"),
+  niveau_catechese: z.string().min(1, "Le niveau de catéchèse est requis"),
+  classe_or_profession: z.string().min(1, "La classe ou profession est requise"),
+  jour_cours: z.string().min(1, "Le jour de cours est requis"),
+  annee_catechese: z.string(),
+  profil: z.string(),
+  date_naissance: z.preprocess((arg) => {
+    if (typeof arg === 'string' || arg instanceof String) {
+      return new Date(arg as string);
+    }
+    return arg;
+  }, z.date().optional()),
+  ets_origin: z.string().optional(),
 });
